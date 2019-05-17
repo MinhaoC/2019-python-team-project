@@ -3,7 +3,7 @@
 # 2019/05/14
 
 class Evacuee:            # define an Evacuee class
-    def __int__(self, x, y, static):
+    def __init__(self, x, y, static):
         self.x = x             # x-coordinate
         self.y = y             # y-coordinate
         self.static = static    # strength of static floor field
