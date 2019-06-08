@@ -7,7 +7,7 @@ class Space:
         self.cellular_space1 = cellular_space1
         self.cellular_space2 = cellular_space2
 
-    def create_evacuees(self, n):
+    def create_evacuees(self, n):  #creat random number of students in the classroom
         number_evacuee = 0
         while number_evacuee < n:
             new = Evacuee(randrange(0, 12), randrange(0, 26), self.cellular_space1, self.cellular_space2)
@@ -20,7 +20,7 @@ class Space:
             evacuee.exit_judge(0, 0)
             evacuee.exit_judge(0, 25)
 
-    def larger_static1(self, remain_evacuees):
+    def larger_static1(self, remain_evacuees):  #calculating field strength
         larger_static1 = []
         all_statics = [evacuee.get_Static1() for evacuee in remain_evacuees]
         for this_evacuee_static in all_statics:
@@ -38,7 +38,9 @@ class Space:
             larger_static2.append(len(larger))
         return larger_static2
 
-    def utility_crowd_assignment(self, larger_static1, larger_static2, remain_evacuees):
+    def utility_crowd_assignment(self, larger_static1, larger_static2, remain_evacuees): # take all factors int account(student number, 
+                                                                                         # field strength, random ratio of which door to escape)
+                                                                                         # and get the deciding function.
         for evacuee in remain_evacuees:
             if larger_static1[remain_evacuees.index(evacuee)] + larger_static2[remain_evacuees.index(evacuee)] != 0:
                 evacuee.utility_crowd = [(1 - larger_static1[remain_evacuees.index(evacuee)] /
@@ -80,8 +82,6 @@ class Space:
                                     cellular_space2[evacuee.get_Y() + dy][evacuee.get_X() + dx].is_occupied()
                                 classroom.undraw_evacuees(evacuee)
                                 evacuee.move(dx, dy)
-                                # if not (evacuee.get_X() == 0 and evacuee.get_Y() == 0) and (
-                                #         evacuee.get_X() == 0 and evacuee.get_Y() == 25):
                                 classroom.draw_evacuee(evacuee)
                                 break
                         except IndexError:
@@ -102,7 +102,6 @@ class Space:
                             pass
                     for dx, dy in delta_in_effect:
                         try:
-                            # statics_around.append(cellular_space1[evacuee.get_Y() + dy][evacuee.get_X() + dx].static)
                             next_step_static = max(statics_around)
                             if cellular_space2[evacuee.get_Y() + dy][
                                 evacuee.get_X() + dx].static == next_step_static and \
@@ -117,8 +116,6 @@ class Space:
                                     cellular_space2[evacuee.get_Y() + dy][evacuee.get_X() + dx].is_occupied()
                                 classroom.undraw_evacuees(evacuee)
                                 evacuee.move(dx, dy)
-                                # if not (evacuee.get_X() == 0 and evacuee.get_Y() == 0) and (
-                                #         evacuee.get_X() == 0 and evacuee.get_Y() == 25):
                                 classroom.draw_evacuee(evacuee)
                                 break
                         except IndexError:
@@ -156,8 +153,6 @@ class Space:
                                     cellular_space2[evacuee.get_Y() + dy][evacuee.get_X() + dx].is_occupied()
                                 classroom.undraw_evacuees(evacuee)
                                 evacuee.move(dx, dy)
-                                # if not (evacuee.get_X() == 0 and evacuee.get_Y() == 0) and (
-                                #         evacuee.get_X() == 0 and evacuee.get_Y() == 25):
                                 classroom.draw_evacuee(evacuee)
                                 break
                         except IndexError:
@@ -193,11 +188,10 @@ class Space:
                                     cellular_space2[evacuee.get_Y() + dy][evacuee.get_X() + dx].is_occupied()
                                 classroom.undraw_evacuees(evacuee)
                                 evacuee.move(dx, dy)
-                                # if not (evacuee.get_X() == 0 and evacuee.get_Y() == 0) and (
-                                #         evacuee.get_X() == 0 and evacuee.get_Y() == 25):
                                 classroom.draw_evacuee(evacuee)
                                 break
+                        except IndexError:
+                            pass
                     evacuee.exit_judge(0, 0)
                     evacuee.exit_judge(0, 25)
-                    # classroom.win.flush()
         update(1)
